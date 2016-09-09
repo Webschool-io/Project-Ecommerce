@@ -1,0 +1,26 @@
+{
+  "name": "marketplace-ecommerce",
+  "description": "Projeto de criação de um martketplace ecommerce com a Stack MEAN.",
+  "main": "index.js",
+  "license": "WTFPL",
+  "keywords": [
+    "MEANStack",
+    "webschool",
+    "marketplace",
+    "ecommerce",
+    "nodejs"
+  ],
+  "homepage": "https://github.com/webschool-io/Project-Marketplace-Ecommerce",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "test",
+    "tests",
+    "client/lib"
+  ],
+  "dependencies": {
+    "angular": "^1.5.8",
+    "angular-ui-router": "^0.3.1",
+    "angular-resource": "^1.5.8"
+  }
+}
