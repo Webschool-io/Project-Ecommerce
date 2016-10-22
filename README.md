@@ -42,7 +42,7 @@ Como o MongoDB não foi feito para ter relacionamentos e cada *join* feito nele 
 
 > Cada relacionamento definido no *Model* será convertido para grafos no Neo4J, por isso as buscas que não estiverem no Cache serão diretamente buscadas no banco de relacionamentos, que é o Neo4J. 
 
-
+Outra funcionalidade que o MongoDB também não foi feito para é buscas textuais, logo iremos utilizar um banco específico para isso: o Elasticsearch.
 
 > E toda busca que envolva textos enviados pelo cliente será buscada no Elasticsearch, o qual já terá pré-definido um *Schema* para facilitar sua busca.
 
