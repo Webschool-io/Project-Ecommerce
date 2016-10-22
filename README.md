@@ -93,7 +93,7 @@ Logo **sempre** que a propriedade `price` for utilizada ela **sempre** terá ess
 ```js
 
 const value = require('/atomic-modules/fields/valueNumber') // value: Number
-const value = require('/atomic-modules/fields/valueNumber') // currency: String
+const currency = require('/atomic-modules/fields/currency') // currency: String
 
 price: {
   value,
@@ -134,6 +134,32 @@ Então para o Cache:
 ```
 
 *ps: Iremos deixar os campos `created_at` e `updated_at` para facilitar na ordenação e busca.*
+
+Obviamente nossa API já terá esse padrão definido:
+
+```js
+// route
+router.get('/', Actions.find)
+
+// Action
+
+const dbConfig = {
+  cache: {
+    use: 'Redis',
+    db: 'ecommerce',
+    actions: [
+      {
+        name: 'default',
+        fn: require('/atomic-modules/dbs/redis/actions/last50products')
+      }
+    ],
+  }
+}
+
+const QueryMediator = require('atomic-modules/QueryMediator')(dbConfig)
+Actions.find = QueryMediator.find
+```
+
 
 
 #### Relacionamentos
