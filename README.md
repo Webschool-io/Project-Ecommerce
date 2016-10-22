@@ -46,6 +46,78 @@ Outra funcionalidade que o MongoDB também não foi feito para é buscas textuai
 
 > E toda busca que envolva textos enviados pelo cliente será buscada no Elasticsearch, o qual já terá pré-definido um *Schema* para facilitar sua busca.
 
+#### Modelagem Atômica
+
+Eu tenho um certo problema com esse negócio de modularizar as coisas, tanto que minha metodologia chamada [Atomic Design]() separa não apenas as entidade/módulos mas sim **cada campo/propriedade** que é utilizado.
+
+Quando eu criei essa metodologia ainda não tinha percebido o quão perfeita ela caiu em ideias de arquitetura que já tinha há anos.
+
+Na modelagem ralacional precisamos **normalizar** a base para fazer *"do jeito certo* e *normalizar* a base nada mais é que separar seus dados para que não haja duplicidade entre eles, pois bem eu quero levar esse conceito um pouco mais a fundo e **trazer isso para os grafos**. Tendo em vista que cada campo meu já é um módulos atômico que independe em qual sistema está sendo usado nada mais claro que colocar cada um como um como um vértice e que qualqer uso dele seja direto independendo do contexto em que está sendo utilizado.
+
+
+#### Exemplo com Product
+
+Vamos fazer um exemplo **BEM SIMPLES** com produto:
+
+```js
+{
+  name: String,
+  sku: String,
+  description: String,
+  price: {
+    value: Number,
+    currency: String
+  },
+  characteristics: [
+    {
+      name: String, // width
+      value: Number, // 200
+      unit: String // g
+    }
+  ],
+  tags: [
+    String
+  ],
+  created_at: Date,
+  updated_at: Date,
+}
+```
+
+Primeiramente definimos um modelo para nosso Cache o qual deve conter o resultado das buscas mais comuns, então vamos cachear a primeira busca que acontecerá **sempre** que o usuário entrar no Ecommerce:
+
+- listar os últimos 50 produtos
+
+> Tudo bem mas com quais dados?
+
+Para responder essa questão precisamos saber como o Ecommerce mostrará as informações, mas vamos definir as mais básicas:
+
+- name
+- description
+- price
+
+Agora toda vez que 1 produto for **adicionado** ou **modificado** esses dados novos terão que ir diretamente para o Cache, logo após o sucesso da alterção no MongoDb.
+
+Então para o Cache:
+
+```js
+{
+  name: String,
+  description: String,
+  price: {
+    value: Number,
+    currency: String
+  },
+  tags: [
+    String
+  ],
+  created_at: Date,
+  updated_at: Date
+}
+```
+
+*ps: Iremos deixar os campos `created_at` e `updated_at` para facilitar na ordenação e busca.*
+
+
 #### Relacionamentos
 
 Todo relacionamento entre entidades no Model será convertido em relações entre vértices no banco de dados específico para isso, o Neo4J.
