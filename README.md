@@ -38,7 +38,11 @@ Por exemplo:
 
 > Definimos um modelo para uma *View atualizável* que será nosso Cache, onde esses dados sempre serão buscados antes no Cache e caso eles não existam será buscado no MongoDB para atualizar essa *View*. Mas os dados precisam sair do Cache para a resposta e não diretamente do MongoDB.
 
+Como o MongoDB não foi feito para ter relacionamentos e cada *join* feito nele é muito custoso iremos mover toda essa funcionalidade para um banco de dados que foi feito especialmente para dados relacionados: de **GRAFOS**.
+
 > Cada relacionamento definido no *Model* será convertido para grafos no Neo4J, por isso as buscas que não estiverem no Cache serão diretamente buscadas no banco de relacionamentos, que é o Neo4J. 
+
+
 
 > E toda busca que envolva textos enviados pelo cliente será buscada no Elasticsearch, o qual já terá pré-definido um *Schema* para facilitar sua busca.
 
