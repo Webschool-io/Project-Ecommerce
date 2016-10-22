@@ -83,6 +83,24 @@ Vamos fazer um exemplo **BEM SIMPLES** com produto:
 }
 ```
 
+Lembrando que cada campo é um módulo independente o módulo de `price` na verdade é uma composição de 2 outros:
+
+- valueNumber: Number
+- currency: String
+
+Logo **sempre** que a propriedade `price` for utilizada ela **sempre** terá essas 2 propriedades assim definidas:
+
+```js
+
+const value = require('/atomic-modules/fields/valueNumber') // value: Number
+const value = require('/atomic-modules/fields/valueNumber') // currency: String
+
+price: {
+  value,
+  currency
+}
+```
+
 Primeiramente definimos um modelo para nosso Cache o qual deve conter o resultado das buscas mais comuns, então vamos cachear a primeira busca que acontecerá **sempre** que o usuário entrar no Ecommerce:
 
 - listar os últimos 50 produtos
